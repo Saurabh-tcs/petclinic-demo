@@ -1,9 +1,9 @@
 FROM registry.access.redhat.com/ubi9/openjdk-17 as build
-WORKDIR /app
+WORKDIR /home/jboss
 COPY . .
 RUN mvn clean package -Dmaven.test.skip=true
 
 FROM registry.access.redhat.com/ubi9/openjdk-17
-WORKDIR /home/default
-COPY --from=build /app/target/spring-petclinic-3.1.0-SNAPSHOT.jar app.jar
+WORKDIR /home/jboss
+COPY --from=build /home/jboss/spring-petclinic-3.1.0-SNAPSHOT.jar app.jar
 CMD ["java","-jar","app.jar"]
